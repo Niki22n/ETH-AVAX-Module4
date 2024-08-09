@@ -19,6 +19,7 @@ contract DegenToken is ERC20, Ownable, ERC20Burnable {
     artifact[] public artifactCatalog;
 
     mapping(uint256 => uint256) public artifactStock;
+    mapping(address => mapping(uint256 => uint256)) public userArtifacts;
 
     constructor() ERC20("Degen", "DGN") Ownable(msg.sender) {
         _setArtifacts();
@@ -35,9 +36,8 @@ contract DegenToken is ERC20, Ownable, ERC20Burnable {
         artifactCatalog.push(artifact("8. DGN Belt", 300, 40));
         artifactCatalog.push(artifact("9. DGN Headphone", 350, 25));
         artifactCatalog.push(artifact("10. DGN Headband", 100, 150));
-        
 
-        // Initialize item stock mapping
+        // stock mapping
         for (uint256 i = 0; i < artifactCatalog.length; i++) {
             artifactStock[i] = artifactCatalog[i].stock;
         }
@@ -71,10 +71,19 @@ contract DegenToken is ERC20, Ownable, ERC20Burnable {
         emit RedeemTokens(msg.sender, Artifact.price, Artifact.name);
 
         artifactStock[_id - 1]--;
+
+        userArtifacts[msg.sender][_id - 1]++;
     }
 
     function artifactStore() external view returns (artifact[] memory) {
         return artifactCatalog;
     }
-}
 
+    function getUserArtifacts(address _user) external view returns (uint256[] memory) {
+        uint256[] memory ownedArtifacts = new uint256[](artifactCatalog.length);
+        for (uint256 i = 0; i < artifactCatalog.length; i++) {
+            ownedArtifacts[i] = userArtifacts[_user][i];
+        }
+        return ownedArtifacts;
+    }
+}
