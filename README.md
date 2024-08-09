@@ -118,8 +118,11 @@ GetBalance: Check the balance of a particular address at a particular time.
 
 Apart from it we also have to flatten the file because the JSON format has to be adaptible as normal import statements are not compatible in the verification portal.
 
-Authors
+# Authors
 Nikita
 
-License
+# Video Walkthrough
+https://www.loom.com/share/725f9e5eec5c459fb7aa7d79445835ce?sid=ed195e3a-f358-4cd8-8774-64e98a513546
+
+# License
 This project is licensed under the MIT License
